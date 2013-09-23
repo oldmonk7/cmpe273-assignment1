@@ -8,6 +8,7 @@ public class Book {
     private String language;
     private int numPages;
     private String status = "available";
+    private Author author;
     /*add more fields here
     ISBN (Key) # You will generate this key.
    Title (Required field)
@@ -88,4 +89,12 @@ Status {available, checked-out, in-queue, or lost} # default to ‘available’
                 public void setStatus(String status) {
             	this.status = status;
                 }
+
+				public Author getAuthor() {
+					return author;
+				}
+
+				public void setAuthor(Author author) {
+					this.author = author;
+				}
 }

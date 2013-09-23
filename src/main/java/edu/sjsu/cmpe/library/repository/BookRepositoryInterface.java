@@ -27,6 +27,10 @@ public interface BookRepositoryInterface {
      * @return a book instance
      */
     Book getBookByISBN(Long isbn);
+    
+    void deleteBook(Long isbn);
+    
+    Book updateBookStatus(String status, Long isbn);
 
     // TODO: add other operations here!
 }

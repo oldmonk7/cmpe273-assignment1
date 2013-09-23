@@ -40,6 +40,13 @@ public class BookRepository implements BookRepositoryInterface {
 	// Generate new ISBN
 	Long isbn = generateISBNKey();
 	newBook.setIsbn(isbn);
+	newBook.setLanguage(newBook.getLanguage());
+	newBook.setNumPages(newBook.getNumPages());
+	newBook.setPublicationDate(newBook.getPublicationDate());
+	newBook.setStatus(newBook.getStatus());
+	//newBook.setAuthor(newBook.getAuthor());
+	
+	
 	// TODO: create and associate other fields such as author
 
 	// Finally, save the new book into the map
@@ -57,5 +64,23 @@ public class BookRepository implements BookRepositoryInterface {
 		"ISBN was %s but expected greater than zero value", isbn);
 	return bookInMemoryMap.get(isbn);
     }
-
+    
+    @Override
+    public void deleteBook(Long isbn) {
+    	checkArgument(isbn > 0,
+    			"ISBN was %s but expected greater than zero value", isbn);
+    	bookInMemoryMap.remove(isbn);
+    }
+    
+    @Override
+    public Book updateBookStatus(String status, Long isbn){
+    	checkNotNull(status, "New status must not be null");
+    	Book tempBook = bookInMemoryMap.get(isbn);
+    	tempBook.setStatus(status);
+    	bookInMemoryMap.replace(isbn, tempBook);
+    	return bookInMemoryMap.get(isbn);	
+    	
+    }
 }
+
+

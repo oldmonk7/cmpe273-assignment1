@@ -10,8 +10,12 @@ import edu.sjsu.cmpe.library.api.resources.BookResource;
 import edu.sjsu.cmpe.library.api.resources.RootResource;
 import edu.sjsu.cmpe.library.config.LibraryServiceConfiguration;
 import edu.sjsu.cmpe.library.domain.Book;
+import edu.sjsu.cmpe.library.domain.Review;
 import edu.sjsu.cmpe.library.repository.BookRepository;
 import edu.sjsu.cmpe.library.repository.BookRepositoryInterface;
+import edu.sjsu.cmpe.library.repository.ReviewRepository;
+import edu.sjsu.cmpe.library.repository.ReviewRepositoryInterface;
+import edu.sjsu.cmpe.library.api.resources.ReviewResource;
 
 public class LibraryService extends Service<LibraryServiceConfiguration> {
 
@@ -33,6 +37,13 @@ public class LibraryService extends Service<LibraryServiceConfiguration> {
 	BookRepositoryInterface bookRepository = new BookRepository(
 		new ConcurrentHashMap<Long, Book>());
 	environment.addResource(new BookResource(bookRepository));
+	/** Review API */
+	ReviewRepositoryInterface reviewRepository = new ReviewRepository(
+			new ConcurrentHashMap<Long, Review>());
+		environment.addResource(new ReviewResource(reviewRepository));
+	
+	
+	
 	/** Add new resources here */
     }
 }
