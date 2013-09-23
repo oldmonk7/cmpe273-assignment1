@@ -43,7 +43,7 @@ public class ReviewResource {
 	
 	Review savedReview = reviewRepository.saveReview(request, isbn.get());
     
-	String location = "/books/{isbn}/reviews";
+	String location = "/books/"+isbn.get()+"/reviews";
 	
 	ReviewDto reviewResponse = new ReviewDto(savedReview);
 	reviewResponse.addLink(new LinkDto("view-review", location, "GET"));
@@ -54,17 +54,18 @@ public class ReviewResource {
     }
     @GET
     @Timed(name = "view-review")
-    @Path("/{isbn}")
-    public ReviewDto getReviewByIsbn(@PathParam("isbn") LongParam isbn) {
-    	Review review = reviewRepository.getReviewByISBN(isbn.get());
+    @Path("/{review-id}")
+    public Response getReviewByReviewId(@PathParam("review-id") LongParam reviewId, @PathParam("isbn") LongParam isbn) {
+    	
+    	Review review = reviewRepository.getReviewByReviewId(reviewId.get(),isbn.get());
     	ReviewDto reviewResponse = new ReviewDto(review);
-    	bookResponse.addLink(new LinkDto("view-book", "/books/" + book.getIsbn(),
+    	reviewResponse.addLink(new LinkDto("view-book", "/books/"+review.getId()+"/reviews" + reviewId.get(),
     		"GET"));
-    	bookResponse.addLink(new LinkDto("update-book",
-    		"/books/" + book.getIsbn(), "POST"));
     	// add more links
 
-    	return bookResponse;
+    	return Response.status(200).entity(reviewResponse).build();
         }
+    
+    
 
 }

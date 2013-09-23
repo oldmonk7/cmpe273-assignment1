@@ -5,6 +5,6 @@ import edu.sjsu.cmpe.library.domain.Review;
 public interface ReviewRepositoryInterface {
 	
 	Review saveReview(Review newReview, Long id);
-    
+    Review getReviewByReviewId(Long reviewId, Long isbn);
 	
 }

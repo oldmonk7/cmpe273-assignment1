@@ -62,7 +62,7 @@ public class BookResource {
     @POST
     @Timed(name = "create-book")
     public Response createBook(Book request) {
-	// Store the new book in the BookRepository so that we can retrieve it.
+	// Store the new book in the bookRepository so that we can retrieve it.
 	Book savedBook = bookRepository.saveBook(request);
 
 	String location = "/books/" + savedBook.getIsbn();

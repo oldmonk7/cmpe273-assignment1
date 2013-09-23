@@ -38,4 +38,12 @@ public class ReviewRepository implements ReviewRepositoryInterface{
 	
 	}
 	
+	public  Review getReviewByReviewId(Long reviewId, Long isbn){
+		checkArgument(reviewId > 0,
+				"reviewID was %s but expected greater than zero value", reviewId);
+		if(reviewInMemoryMap.get(reviewId).getId()==isbn)	
+		return reviewInMemoryMap.get(reviewId);
+		return null;
+	}
+	
 }

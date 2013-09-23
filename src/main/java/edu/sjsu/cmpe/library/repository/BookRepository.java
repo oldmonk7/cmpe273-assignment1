@@ -39,6 +39,7 @@ public class BookRepository implements BookRepositoryInterface {
 	checkNotNull(newBook, "newBook instance must not be null");
 	// Generate new ISBN
 	Long isbn = generateISBNKey();
+	newBook.setTitle(newBook.getTitle());
 	newBook.setIsbn(isbn);
 	newBook.setLanguage(newBook.getLanguage());
 	newBook.setNumPages(newBook.getNumPages());
