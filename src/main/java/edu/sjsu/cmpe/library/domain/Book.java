@@ -1,14 +1,20 @@
 package edu.sjsu.cmpe.library.domain;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Book {
     private long isbn;
     private String title;
-    private Date pubDate;
+   @JsonProperty("publication-date") 
+    private String pubDate;
     private String language;
+    @JsonProperty("num-pages")
     private int numPages;
     private String status = "available";
-    private Author author;
+    @JsonProperty("authors")
+    private List<Author> author;
     /*add more fields here
     ISBN (Key) # You will generate this key.
    Title (Required field)
@@ -47,11 +53,11 @@ Status {available, checked-out, in-queue, or lost} # default to ‘available’
 	this.title = title;
     }
     
-    public Date getPublicationDate() {
+    public String getPublicationDate() {
     	return pubDate;
         }
     
-    public void setPublicationDate(Date date) {
+    public void setPublicationDate(String date) {
     	this.pubDate = date;
         }
     
@@ -90,11 +96,11 @@ Status {available, checked-out, in-queue, or lost} # default to ‘available’
             	this.status = status;
                 }
 
-				public Author getAuthor() {
+				public List<Author> getAuthor() {
 					return author;
 				}
 
-				public void setAuthor(Author author) {
+				public void setAuthor(List<Author> author) {
 					this.author = author;
 				}
 }

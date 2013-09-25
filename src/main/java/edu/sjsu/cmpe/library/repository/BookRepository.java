@@ -3,14 +3,16 @@ package edu.sjsu.cmpe.library.repository;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+import edu.sjsu.cmpe.library.domain.Author;
 import edu.sjsu.cmpe.library.domain.Book;
 
 public class BookRepository implements BookRepositoryInterface {
     /** In-memory map to store books. (Key, Value) -> (ISBN, Book) */
     private final ConcurrentHashMap<Long, Book> bookInMemoryMap;
-
+    private static long authID;
     /** Never access this key directly; instead use generateISBNKey() */
     private long isbnKey;
 
@@ -45,7 +47,13 @@ public class BookRepository implements BookRepositoryInterface {
 	newBook.setNumPages(newBook.getNumPages());
 	newBook.setPublicationDate(newBook.getPublicationDate());
 	newBook.setStatus(newBook.getStatus());
-	//newBook.setAuthor(newBook.getAuthor());
+	for (int i=0; i< newBook.getAuthor().size(); i++)
+	{
+		newBook.getAuthor().get(i).setId(++authID);
+		
+	}
+	
+	newBook.setAuthor(newBook.getAuthor());
 	
 	
 	// TODO: create and associate other fields such as author
@@ -82,6 +90,25 @@ public class BookRepository implements BookRepositoryInterface {
     	return bookInMemoryMap.get(isbn);	
     	
     }
-}
+    
+    @Override
+    public Author getAuthorById(int authorId, Long isbn){
+    	int position=0;
+    	for(int i=0; i< bookInMemoryMap.get(isbn).getAuthor().size();i++){
+    		
+    		if(bookInMemoryMap.get(isbn).getAuthor().get(i).getId() !=authorId)
+    		position=i;
+        	
+    }
+    	return bookInMemoryMap.get(isbn).getAuthor().get(position-1);
+    }
+    	public List<Author> getAllAuthors(Long isbn){
+    		
+        return bookInMemoryMap.get(isbn).getAuthor();
+         	
+     }
+    
+    }
+
 
 

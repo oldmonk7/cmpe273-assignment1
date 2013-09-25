@@ -1,6 +1,10 @@
 package edu.sjsu.cmpe.library.repository;
 
+
+import java.util.List;
+
 import edu.sjsu.cmpe.library.domain.Book;
+import edu.sjsu.cmpe.library.domain.Author;
 
 /**
  * Book repository interface.
@@ -31,6 +35,11 @@ public interface BookRepositoryInterface {
     void deleteBook(Long isbn);
     
     Book updateBookStatus(String status, Long isbn);
+
+    Author getAuthorById(int authorId, Long isbn);
+
+    List<Author> getAllAuthors(Long isbn);
+	
 
     // TODO: add other operations here!
 }

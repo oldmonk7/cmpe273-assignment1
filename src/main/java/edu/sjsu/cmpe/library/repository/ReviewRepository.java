@@ -2,6 +2,8 @@ package edu.sjsu.cmpe.library.repository;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 
 import edu.sjsu.cmpe.library.domain.Book;
@@ -20,7 +22,7 @@ public class ReviewRepository implements ReviewRepositoryInterface{
 			reviewKey = 0;
 		    }
 	 private final Long generateReviewKey() {
-			// increment existing isbnKey and return the new value
+			// increment existing reviewKey and return the new value
 			return Long.valueOf(++reviewKey);
 		    }
 
@@ -46,4 +48,21 @@ public class ReviewRepository implements ReviewRepositoryInterface{
 		return null;
 	}
 	
-}
+    public ArrayList<Review> getAllReviews(Long isbn){
+    	
+    ArrayList<Review> review = new ArrayList<Review>();
+    
+    for(int i=1;i<reviewInMemoryMap.size(); i++){
+    	if(reviewInMemoryMap.get(i).getId()==isbn)
+   	     review.add(reviewInMemoryMap.get(i));
+    }
+    return review;
+    
+	}
+		
+   	
+    	
+    }
+
+
+
