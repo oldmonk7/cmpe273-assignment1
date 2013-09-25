@@ -52,7 +52,7 @@ public class ReviewRepository implements ReviewRepositoryInterface{
     	
     ArrayList<Review> review = new ArrayList<Review>();
     
-    for(int i=1;i<reviewInMemoryMap.size(); i++){
+    for(long i=1;i<reviewInMemoryMap.size(); i++){
     	if(reviewInMemoryMap.get(i).getId()==isbn)
    	     review.add(reviewInMemoryMap.get(i));
     }

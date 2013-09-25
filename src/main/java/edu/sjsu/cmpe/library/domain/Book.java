@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Book {
     private long isbn;
     private String title;
-   @JsonProperty("publication-date") 
+    @JsonProperty("publication-date") 
     private String pubDate;
     private String language;
     @JsonProperty("num-pages")
