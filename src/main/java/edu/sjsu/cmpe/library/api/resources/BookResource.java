@@ -15,6 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.google.common.collect.Lists;
+import com.sun.jersey.api.NotFoundException;
 import com.yammer.dropwizard.jersey.params.IntParam;
 import com.yammer.dropwizard.jersey.params.LongParam;
 import com.yammer.metrics.annotation.Timed;
@@ -37,7 +38,7 @@ import edu.sjsu.cmpe.library.repository.ReviewRepositoryInterface;
 public class BookResource {
     /** bookRepository instance */
     private final BookRepositoryInterface bookRepository;
-    private ReviewRepositoryInterface reviewrepository;
+   // private final ReviewRepositoryInterface reviewrepository;
     /**
      * BookResource constructor
      * 
@@ -47,7 +48,7 @@ public class BookResource {
     public BookResource(BookRepositoryInterface bookRepository) {
 	this.bookRepository = bookRepository;
     }
-
+ 
     @GET
     @Path("/{isbn}")
     @Timed(name = "view-book")
@@ -59,7 +60,7 @@ public class BookResource {
 	bookResponse.addLink(new LinkDto("update-book", location, "PUT"));
 	bookResponse.addLink(new LinkDto("delete-book", location, "DELETE"));
 	bookResponse.addLink(new LinkDto("create-review", location + "/reviews", "POST"));
-	//if (reviewrepository.getAllReviews(isbn.get())==null){
+	//if (reviewrepository.getAllReviews((Long)isbn.get()).size()==0){
 	bookResponse.addLink(new LinkDto("get-all-reviews", location + "/reviews", "GET"));
 	//}// Add other links if needed/
 
@@ -96,8 +97,19 @@ public class BookResource {
     }
     @PUT
     @Path( "/{isbn}")
-    public Response updateBook(@PathParam("isbn") LongParam isbn, @QueryParam("status") String newStatus){
+    public Response updateBook(@PathParam("isbn") LongParam isbn, @QueryParam("status") String newStatus) throws Exception{
     
+    	try{
+			if(!newStatus.equalsIgnoreCase("available") &&
+				!newStatus.equalsIgnoreCase("lost") &&
+				!newStatus.equalsIgnoreCase("checked-out") &&
+				!newStatus.equalsIgnoreCase("in-queue")) {
+			throw new NotFoundException("In-valid value entered for status. Valid values are [available,lost,checked-out,in-queue]");
+
+			}
+		}	catch (Exception e) {
+			throw e;
+		}
     	Book updatedBook= bookRepository.updateBookStatus(newStatus, isbn.get());
     	
     	String location = "/books/" + updatedBook.getIsbn();

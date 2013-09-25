@@ -1,16 +1,20 @@
 package edu.sjsu.cmpe.library.domain;
-import java.util.Date;
 import java.util.List;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Book {
     private long isbn;
+    @NotEmpty
     private String title;
+    @NotEmpty
     @JsonProperty("publication-date") 
-    private String pubDate;
+    private String pubdate;
     private String language;
     @JsonProperty("num-pages")
+    @NotEmpty
     private int numPages;
     private String status = "available";
     @JsonProperty("authors")
@@ -54,11 +58,11 @@ Status {available, checked-out, in-queue, or lost} # default to ‘available’
     }
     
     public String getPublicationDate() {
-    	return pubDate;
+    	return pubdate;
         }
     
     public void setPublicationDate(String date) {
-    	this.pubDate = date;
+    	this.pubdate = date;
         }
     
     public String getLanguage() {

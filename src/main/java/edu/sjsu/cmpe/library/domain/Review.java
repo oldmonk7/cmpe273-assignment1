@@ -1,9 +1,13 @@
 package edu.sjsu.cmpe.library.domain;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 public class Review {
 	
 	private long id;
+	@NotEmpty
     private int rating;
+    @NotEmpty
     private String comment;
    
 	public long getId() {
