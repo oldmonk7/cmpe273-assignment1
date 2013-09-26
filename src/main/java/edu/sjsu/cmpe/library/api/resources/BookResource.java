@@ -2,6 +2,7 @@ package edu.sjsu.cmpe.library.api.resources;
 
 import java.util.List;
 
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -52,7 +53,7 @@ public class BookResource {
     @GET
     @Path("/{isbn}")
     @Timed(name = "view-book")
-    public BookDto getBookByIsbn(@PathParam("isbn") LongParam isbn) {
+    public BookDto getBookByIsbn(@Valid @PathParam("isbn") LongParam isbn) {
 	Book book = bookRepository.getBookByISBN(isbn.get());
 	BookDto bookResponse = new BookDto(book);
 	String location = "/books/" + book.getIsbn();
@@ -75,7 +76,8 @@ public class BookResource {
 	Book savedBook = bookRepository.saveBook(request);
 
 	String location = "/books/" + savedBook.getIsbn();
-	BookDto bookResponse = new BookDto(savedBook);
+	//BookDto bookResponse = new BookDto(savedBook);
+	LinksDto bookResponse = new LinksDto();
 	bookResponse.addLink(new LinkDto("view-book", location, "GET"));
 	bookResponse.addLink(new LinkDto("update-book", location, "PUT"));
 	bookResponse.addLink(new LinkDto("delete-book", location, "DELETE"));
@@ -104,7 +106,7 @@ public class BookResource {
 				!newStatus.equalsIgnoreCase("lost") &&
 				!newStatus.equalsIgnoreCase("checked-out") &&
 				!newStatus.equalsIgnoreCase("in-queue")) {
-			throw new NotFoundException("In-valid value entered for status. Valid values are [available,lost,checked-out,in-queue]");
+			throw new NotFoundException("Only [available,lost,checked-out,in-queue] are allowed");
 
 			}
 		}	catch (Exception e) {
